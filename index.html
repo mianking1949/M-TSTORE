@@ -1,39 +1,43 @@
-my<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="km">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M&T Store - Professional</title>
+    <title>M&T Store - ហាងទំនើប</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap');
         body { font-family: 'Hanuman', sans-serif; }
         .product-card:active { transform: scale(0.98); }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-50 pb-24">
 
+    <!-- ក្បាលទំព័រ -->
     <div class="bg-white shadow-sm p-4 sticky top-0 z-10 flex items-center justify-between">
         <h1 class="text-xl font-bold text-black">M&T Store</h1>
-        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">បើកដំណើរការ</span>
+        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">កំពុងបើកដំណើរការ</span>
     </div>
 
+    <!-- បញ្ជីផលិតផល -->
     <div class="p-4 space-y-6">
         <h2 class="text-lg font-bold text-gray-800">ផលិតផលថ្មីៗ</h2>
         
         <div class="grid grid-cols-1 gap-4">
+            <!-- ផលិតផលទី១ -->
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex product-card transition-all">
-                <img src="ថ្នាំដុសធ្មេញ"https://images.unsplash.com/photo-ea0ab56f-4778-4792-bdb8-8184a14f12c1" class="w-32 h-32 object-cover">
+                <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff047d?w=400" class="w-32 h-32 object-cover" alt="ថ្នាំដុសធ្មេញ">
                 <div class="p-4 flex-1">
                     <h3 class="font-bold text-gray-800 text-sm">ថ្នាំដុសធ្មេញ</h3>
-                    <p class="text-blue-600 font-bold mt-1">$3</p>
+                    <p class="text-blue-600 font-bold mt-1">$3.00</p>
                     <button onclick="openOrder('ថ្នាំដុសធ្មេញ', '$3.00')" class="mt-2 bg-black text-white text-xs px-4 py-2 rounded-lg font-bold">កុម្ម៉ង់ឥឡូវ</button>
                 </div>
             </div>
 
+            <!-- ផលិតផលទី២ -->
             <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex product-card transition-all">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="w-32 h-32 object-cover">
+                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="w-32 h-32 object-cover" alt="កាស Bluetooth">
                 <div class="p-4 flex-1">
                     <h3 class="font-bold text-gray-800 text-sm">កាស Bluetooth លឺច្បាស់</h3>
                     <p class="text-blue-600 font-bold mt-1">$15.00</p>
@@ -42,34 +46,28 @@ my<!DOCTYPE html>
             </div>
         </div>
 
+        <!-- ផ្នែកទំនាក់ទំនង -->
         <div class="pt-4 border-t border-gray-200">
             <h2 class="text-lg font-bold text-gray-800 mb-4 text-center">ទំនាក់ទំនងយើងខ្ញុំ</h2>
             <div class="grid grid-cols-2 gap-3">
-                <a href="https://t.me/mian_0009" class="flex items-center justify-center bg-blue-500 text-white py-3 rounded-xl font-bold text-sm shadow-md">
-                   ឆាតតាម Telegram
-                </a>
-                <a href="tel:0713799996" class="flex items-center justify-center bg-green-500 text-white py-3 rounded-xl font-bold text-sm shadow-md">
-                   ហៅទូរស័ព្ទផ្ទាល់
-                </a>
-                <a href="https://maps.app.goo.gl/SZnwAAFGxs79cpA59?g_st=ic" class="flex items-center justify-center bg-green-500 text-whit py-3 rounded-x1 font-bold text-sm shadow-md">
-                    ទីតាំង
-                    </a>
+                <a href="https://t.me/mian_0009" class="flex items-center justify-center bg-blue-500 text-white py-3 rounded-xl font-bold text-sm shadow-md">ឆាតតាម Telegram</a>
+                <a href="tel:0713799996" class="flex items-center justify-center bg-green-500 text-white py-3 rounded-xl font-bold text-sm shadow-md">ហៅទូរស័ព្ទ</a>
+                <a href="https://maps.app.goo.gl/SZnwAAFGxs79cpA59?g_st=ic" class="col-span-2 flex items-center justify-center bg-gray-800 text-white py-3 rounded-xl font-bold text-sm shadow-md">ទីតាំងហាង</a>
             </div>
         </div>
     </div>
 
-    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-20 flex items-end">
-        <div class="bg-white w-full rounded-t-3xl p-6 space-y-4 animate-bounce-short">
+    <!-- ប្រអប់កុម្ម៉ង់ -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-20 flex items-end justify-center">
+        <div class="bg-white w-full max-w-lg rounded-t-3xl p-6 space-y-4">
             <div class="flex justify-between items-center">
                 <h2 id="modalTitle" class="text-xl font-bold">បំពេញព័ត៌មានកុម្ម៉ង់</h2>
-                <button onclick="closeOrder()" class="text-gray-400 text-2xl">&times;</button>
+                <button onclick="closeOrder()" class="text-gray-400 text-2xl px-2">&times;</button>
             </div>
             <p id="modalPrice" class="text-blue-600 font-bold"></p>
-            
-            <input type="text" id="customerName" placeholder="ឈ្មោះអតិថិជន" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="tel" id="customerPhone" placeholder="លេខទូរស័ព្ទ" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <textarea id="customerAddress" placeholder="អាសយដ្ឋានដឹកជញ្ជូន" class="w-full border border-gray-200 p-3 rounded-xl h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-            
+            <input type="text" id="customerName" placeholder="ឈ្មោះអតិថិជន" class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500">
+            <input type="tel" id="customerPhone" placeholder="លេខទូរស័ព្ទ" class="w-full border border-gray-200 p-3 rounded-xl focus:ring-2 focus:ring-blue-500">
+            <textarea id="customerAddress" placeholder="អាសយដ្ឋានដឹកជញ្ជូន" class="w-full border border-gray-200 p-3 rounded-xl h-20"></textarea>
             <button onclick="submitOrder()" class="w-full bg-black text-white py-4 rounded-xl font-bold shadow-lg">បញ្ជាក់ការកុម្ម៉ង់</button>
         </div>
     </div>
@@ -77,7 +75,6 @@ my<!DOCTYPE html>
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
-
         let currentProduct = "";
 
         function openOrder(name, price) {
@@ -97,9 +94,8 @@ my<!DOCTYPE html>
             const address = document.getElementById('customerAddress').value;
 
             if (name && phone && address) {
-                const orderData = `កុម្ម៉ង់ថ្មី៖\n- ទំនិញ៖ ${currentProduct}\n- ឈ្មោះ៖ ${name}\n- លេខទូរស័ព្ទ៖ ${phone}\n- អាសយដ្ឋាន៖ ${address}`;
+                const orderData = `កុម្ម៉ង់ថ្មីពី ${name}៖\n- ទំនិញ៖ ${currentProduct}\n- លេខទូរស័ព្ទ៖ ${phone}\n- អាសយដ្ឋាន៖ ${address}`;
                 tg.sendData(orderData);
-                tg.close();
             } else {
                 alert("សូមបំពេញព័ត៌មានឱ្យគ្រប់គ្រាន់!");
             }
@@ -107,7 +103,4 @@ my<!DOCTYPE html>
     </script>
 </body>
 </html>
-
-
-
 
