@@ -50,45 +50,31 @@
         </div>
     </div>
 
-    <!-- ==================== ផ្នែកកូដ JAVASCRIPT ==================== -->
     <script>
-        // ១. ចាប់ផ្តើមដំណើរការ Telegram WebApp Object
         const tg = window.Telegram.WebApp;
-        tg.expand(); // ពង្រីកអេក្រង់ឱ្យធំក្នុង Telegram
-
-        let currentProduct = ""; // Variable សម្រាប់រក្សាទុកឈ្មោះទំនិញដែលភ្ញៀវចុចទិញ
-
-        // ២. មុខងារបើកផ្ទាំងកម្មង់
+    let currentProduct = ""; // Variable សម្រាប់រក្សាទុកឈ្មោះទំនិញដែលភ្ញៀវចុចទិញ
         function openOrder(productInfo) {
             currentProduct = productInfo;
             document.getElementById('modalPrice').innerText = "ទំនិញ៖ " + productInfo;
             document.getElementById('orderModal').classList.remove('hidden'); // បង្ហាញ Modal
         }
-
-        // ៣. មុខងារបិទផ្ទាំងកម្មង់
         function closeOrder() {
             document.getElementById('orderModal').classList.add('hidden'); // លាក់ Modal
-            // សំអាតទិន្នន័យក្នុងប្រអប់បញ្ចូល
             document.getElementById('customerName').value = "";
             document.getElementById('customerPhone').value = "";
             document.getElementById('customerAddress').value = "";
         }
 
-        // ៤. មុខងារផ្ញើការកម្មង់ទៅកាន់ Telegram Bot
         function submitOrder() {
             const name = document.getElementById('customerName').value.trim();
             const phone = document.getElementById('customerPhone').value.trim();
             const address = document.getElementById('customerAddress').value.trim();
 
-            // ពិនិត្យមើលថាតើបានបំពេញគ្រប់ឬនៅ
+      
             if (name && phone && address) {
-                // បង្កើតទម្រង់សារ
                 const message = `🛍️ ការកម្មង់ថ្មី៖\n📦 ផលិតផល៖ ${currentProduct}\n👤 ឈ្មោះ៖ ${name}\n📞 ទូរស័ព្ទ៖ ${phone}\n📍 អាសយដ្ឋាន៖ ${address}`;
-
-                // ផ្ញើទៅកាន់ Telegram Bot (@mtstorekhbot) 
-                tg.sendData(message);
-
-                // បិទផ្ទាំងកម្មង់វិញ
+) 
+                tg.sendData(@mtstorekhbot);
                 closeOrder();
             } else {
                 alert("សូមបំពេញព័ត៌មានឱ្យបានគ្រប់គ្រាន់!");
@@ -103,13 +89,11 @@
 </head>
 <body class="bg-gray-50 pb-24">
 
-    <!-- ក្បាលទំព័រ -->
     <div class="bg-white shadow-sm p-4 sticky top-0 z-10 flex items-center justify-between">
         <h1 class="text-xl font-bold text-black">M&T Store</h1>
         <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">បើកដំណើរការ</span>
     </div>
 
-    <!-- បញ្ជីផលិតផល -->
     <div class="p-4 space-y-6">
         <h2 class="text-lg font-bold text-gray-800">ផលិតផលពិសេសៗ</h2>
         
