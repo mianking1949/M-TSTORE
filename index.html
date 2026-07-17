@@ -129,6 +129,95 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MT Store KH</title>
+    <!-- ភ្ជាប់ Tailwind CSS សម្រាប់ឌីហ្សាញ -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- ⚠️ សំខាន់បំផុត៖ ត្រូវភ្ជាប់ Telegram WebApp Script នេះដើម្បីប្រើប្រាស់ tg.sendData -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body class="bg-gray-100 p-6 flex flex-col items-center justify-center min-h-screen">
 
+    <!-- ប៊ូតុងសាកល្បងសម្រាប់បើកផ្ទាំងកម្មង់ (លុបចេញវិញបាន) -->
+    <button onclick="openOrder('អាវយឺតដៃខ្លី (តម្លៃ $10.00)')" class="bg-blue-600 text-white px-6 py-3 rounded-xl font-bold shadow-md hover:bg-blue-700 transition">
+        សាកល្បងកម្មង់ទំនិញ
+    </button>
+
+    <!-- ==================== ផ្ទាំងប្រអប់កម្មង់ (Modal) ==================== -->
+    <div id="orderModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4 z-20">
+        <div class="bg-white w-full max-w-md rounded-2xl p-6 space-y-4 shadow-2xl">
+            
+            <div class="flex justify-between items-center">
+                <h2 id="modalTitle" class="text-lg font-bold text-gray-800">ព័ត៌មានកម្មង់</h2>
+                <button onclick="closeOrder()" class="text-3xl text-gray-400 hover:text-gray-600 transition cursor-pointer">&times;</button>
+            </div>
+
+            <!-- បង្ហាញឈ្មោះផលិតផល និងតម្លៃ -->
+            <p id="modalPrice" class="text-blue-600 font-bold bg-blue-50 p-3 rounded-lg"></p>
+
+            <!-- ប្រអប់បញ្ចូលទិន្នន័យ -->
+            <input type="text" id="customerName" placeholder="ឈ្មោះអតិថិជន" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-blue-500">
+            <input type="tel" id="customerPhone" placeholder="លេខទូរស័ព្ទ" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-blue-500">
+            <textarea id="customerAddress" placeholder="អាសយដ្ឋានដឹកជញ្ជូន" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:border-blue-500" rows="3"></textarea>
+
+            <!-- ប៊ូតុងបញ្ជាក់ -->
+            <button onclick="submitOrder()" class="w-full bg-black text-white py-4 rounded-xl font-bold shadow-lg hover:bg-gray-800 transition cursor-pointer">
+                បញ្ជាក់ការកម្មង់
+            </button>
+
+        </div>
+    </div>
+
+    <!-- ==================== ផ្នែកកូដ JAVASCRIPT ==================== -->
+    <script>
+        // ១. ចាប់ផ្តើមដំណើរការ Telegram WebApp Object
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // ពង្រីកអេក្រង់ឱ្យធំក្នុង Telegram
+
+        let currentProduct = ""; // Variable សម្រាប់រក្សាទុកឈ្មោះទំនិញដែលភ្ញៀវចុចទិញ
+
+        // ២. មុខងារបើកផ្ទាំងកម្មង់
+        function openOrder(productInfo) {
+            currentProduct = productInfo;
+            document.getElementById('modalPrice').innerText = "ទំនិញ៖ " + productInfo;
+            document.getElementById('orderModal').classList.remove('hidden'); // បង្ហាញ Modal
+        }
+
+        // ៣. មុខងារបិទផ្ទាំងកម្មង់
+        function closeOrder() {
+            document.getElementById('orderModal').classList.add('hidden'); // លាក់ Modal
+            // សំអាតទិន្នន័យក្នុងប្រអប់បញ្ចូល
+            document.getElementById('customerName').value = "";
+            document.getElementById('customerPhone').value = "";
+            document.getElementById('customerAddress').value = "";
+        }
+
+        // ៤. មុខងារផ្ញើការកម្មង់ទៅកាន់ Telegram Bot
+        function submitOrder() {
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+
+            // ពិនិត្យមើលថាតើបានបំពេញគ្រប់ឬនៅ
+            if (name && phone && address) {
+                // បង្កើតទម្រង់សារ
+                const message = `🛍️ ការកម្មង់ថ្មី៖\n📦 ផលិតផល៖ ${currentProduct}\n👤 ឈ្មោះ៖ ${name}\n📞 ទូរស័ព្ទ៖ ${phone}\n📍 អាសយដ្ឋាន៖ ${address}`;
+
+                // ផ្ញើទៅកាន់ Telegram Bot (@mtstorekhbot) 
+                tg.sendData(message);
+
+                // បិទផ្ទាំងកម្មង់វិញ
+                closeOrder();
+            } else {
+                alert("សូមបំពេញព័ត៌មានឱ្យបានគ្រប់គ្រាន់!");
+            }
+        }
+    </script>
+</body>
+</html>
 
     
