@@ -294,36 +294,7 @@
     if (name && phone && address) {
         const message = `🛍️ ការកម្មង់ថ្មី៖\n📦 ផលិតផល៖ ${currentProduct}\n👤 ឈ្មោះ៖ ${name}\n📞 ទូរស័ព្ទ៖ ${phone}\n📍 អាសយដ្ឋាន៖ ${address}`;
 
-        // 🔑 ដាក់ Bot Token និង Chat ID របស់អ្នកនៅទីនេះ
-        const BOT_TOKEN = "ដាក់_BOT_TOKEN_របស់អ្នកនៅទីនេះ"; 
-        const CHAT_ID = "ដាក់_CHAT_ID_ឬ_ID_គ្រុបរបស់អ្នកនៅទីនេះ"; 
-
-        // ផ្ញើសារទៅកាន់ Telegram ផ្ទាល់តាមរយៈ API
-        fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                chat_id: CHAT_ID,
-                text: message
-            })
-        })
-        .then(response => {
-            if(response.ok) {
-                alert("ការកម្មង់ត្រូវបានផ្ញើជោគជ័យ!");
-                closeOrder();
-                tg.close(); // បិទផ្ទាំង Web App
-            } else {
-                alert("មានបញ្ហាក្នុងការផ្ញើ!");
-            }
-        })
-        .catch(err => console.error(err));
-
-    } else {
-        alert("សូមបំពេញព័ត៌មានឱ្យបានគ្រប់គ្រាន់!");
-    }
-}
-    
-// ១. ប្រកាស BOT_TOKEN និង CHAT_ID របស់អ្នក
+       // ១. ប្រកាស BOT_TOKEN និង CHAT_ID របស់អ្នក
 const BOT_TOKEN = "8834859966:AAGCsa7taNSO60TvOrblL2u6kfOMtgqroM0"; 
 const CHAT_ID = "ដាក់_ID_គណនី_Telegram_របស់អ្នកនៅទីនេះ"; // ឧទាហរណ៍៖ "123456789" (គ្មានសញ្ញាធ្មេញកណ្តុរ ឬមានក៏បាន)
 
