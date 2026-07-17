@@ -323,3 +323,29 @@
     }
 }
     
+// ១. ប្រកាស BOT_TOKEN និង CHAT_ID របស់អ្នក
+const BOT_TOKEN = "8834859966:AAGCsa7taNSO60TvOrblL2u6kfOMtgqroM0"; 
+const CHAT_ID = "ដាក់_ID_គណនី_Telegram_របស់អ្នកនៅទីនេះ"; // ឧទាហរណ៍៖ "123456789" (គ្មានសញ្ញាធ្មេញកណ្តុរ ឬមានក៏បាន)
+
+// ២. កូដ fetch សម្រាប់ផ្ញើសារ (ដូចក្នុងរូបភាពរបស់អ្នក)
+fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: message
+    })
+})
+.then(response => {
+    if (response.ok) {
+        alert("ការកម្មង់ត្រូវបានផ្ញើជោគជ័យ!");
+        closeOrder(); // បិទ Modal
+        tg.close();   // បិទ Web App ក្នុង Telegram
+    } else {
+        alert("ការផ្ញើបរាជ័យ! សូមពិនិត្យមើល CHAT_ID ម្តងទៀត។");
+    }
+})
+.catch(error => {
+    console.error("Error:", error);
+    alert("មានបញ្ហាប្រព័ន្ធអ៊ីនធឺណិត!");
+});
