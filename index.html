@@ -108,31 +108,6 @@
                 tg.sendData(orderData);
             } else {
                 alert("សូមបំពេញព័ត៌មានឱ្យគ្រប់គ្រាន់!");
-                function submitOrder() {
-    // ១. ទាញយកតម្លៃពីប្រអប់បញ្ចូល
-    const name = document.getElementById('customerName').value;
-    const phone = document.getElementById('customerPhone').value;
-    const address = document.getElementById('customerAddress').value;
-
-    // ២. ត្រួតពិនិត្យថាបានបំពេញគ្រប់ឬនៅ
-    if (name && phone && address) {
-        // ៣. បង្កើតសារសម្រាប់ផ្ញើទៅ Telegram
-        const message = `🛍 ការកុម្ម៉ង់ថ្មី៖
-        ផលិតផល៖ ${currentProduct}
-        ឈ្មោះ៖ ${name}
-        ទូរស័ព្ទ៖ ${phone}
-        អាសយដ្ឋាន៖ ${address}`;
-
-        // ៤. ផ្ញើទៅកាន់ Telegram Bot (ប្រើមុខងារ sendData របស់ Telegram WebApp)
-        tg.sendData(message);
-        
-        // បិទផ្ទាំងកុម្ម៉ង់
-        closeOrder();
-    } else {
-        alert("សូមបំពេញព័ត៌មានឱ្យបានគ្រប់គ្រាន់!");
-    }
-}
-
             }
         }
     </script>
