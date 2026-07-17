@@ -85,7 +85,16 @@
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
-        let currentProduct = "";
+        let currentProduct = "  function submitOrder() {
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const address = document.getElementById('customerAddress').value;
+
+            if (name && phone && address) {
+                const orderData = `កុម្ម៉ង់ថ្មីពី ${name}៖\n- ទំនិញ៖ ${currentProduct}\n- លេខទូរស័ព្ទ៖ ${phone}\n- អាសយដ្ឋាន៖ ${address}`;
+                tg.sendData(orderData);
+            } else {
+                alert("សូមបំពេញព័ត៌មានឱ្យគ្រប់គ្រាន់!") ";
 
         function openOrder(name, price) {
             currentProduct = name;
