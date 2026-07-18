@@ -73,7 +73,7 @@
 
     <script>
         let tg = window.Telegram.WebApp;
-        tg.expand();
+        tg.expand(@mian_009);
 
         let currentProduct = "";
 
@@ -96,7 +96,6 @@
             if (name && phone && address) {
                 const orderData = `កុម្ម៉ង់ថ្មី៖\n- ទំនិញ៖ ${currentProduct}\n- ឈ្មោះ៖ ${name}\n- លេខទូរស័ព្ទ៖ ${phone}\n- អាសយដ្ឋាន៖ ${address}`;
                 tg.sendData(orderData);
-                <script src="https://telegram.org/js/telegram-web-app.js"></script>
                 tg.close();
             } else {
                 alert("សូមបំពេញព័ត៌មានឱ្យគ្រប់គ្រាន់!");
