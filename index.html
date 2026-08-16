@@ -1,108 +1,211 @@
-<!DOCTYPE html>
-<html lang="km">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>M&T Store - Professional</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: 'Hanuman', sans-serif; }
-        .product-card:active { transform: scale(0.98); }
-    </style>
-    <link href="https://fonts.googleapis.com/css2?family=Hanuman:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-50 pb-24">
+import json
+import os
+import ssl
+import threading
+import time
+import urllib.request
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
-    <div class="bg-white shadow-sm p-4 sticky top-0 z-10 flex items-center justify-between">
-        <h1 class="text-xl font-bold text-black">M&T Store</h1>
-        <span class="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold">បើកដំណើរការ</span>
-    </div>
-
-    <div class="p-4 space-y-6">
-        <h2 class="text-lg font-bold text-gray-800">ផលិតផលថ្មីៗ</h2>
-        
-        <div class="grid grid-cols-1 gap-4">
-            <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex product-card transition-all">
-                <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400" class="w-32 h-32 object-cover">
-                <div class="p-4 flex-1">
-                    <h3 class="font-bold text-gray-800 text-sm">នាឡិកាដៃសេរីទំនើប</h3>
-                    <p class="text-blue-600 font-bold mt-1">$25.00</p>
-                    <button onclick="openOrder('នាឡិកាដៃសេរីទំនើប', '$25.00')" class="mt-2 bg-black text-white text-xs px-4 py-2 rounded-lg font-bold">កុម្ម៉ង់ឥឡូវ</button>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl shadow-sm overflow-hidden flex product-card transition-all">
-                <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400" class="w-32 h-32 object-cover">
-                <div class="p-4 flex-1">
-                    <h3 class="font-bold text-gray-800 text-sm">按摩机</h3>
-                    <p class="text-blue-600 font-bold mt-1">$15.00</p>
-                    <button onclick="openOrder('按摩机', '$15.00')" class="mt-2 bg-black text-white text-xs px-4 py-2 rounded-lg font-bold">កុម្ម៉ង់ឥឡូវ</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="pt-4 border-t border-gray-200">
-            <h2 class="text-lg font-bold text-gray-800 mb-4 text-center">ទំនាក់ទំនងយើងខ្ញុំ</h2>
-            <div class="grid grid-cols-2 gap-3">
-                <a href="https://t.me/mian_0009" class="flex items-center justify-center bg-blue-500 text-white py-3 rounded-xl font-bold text-sm shadow-md">
-                   ឆាតតាម Telegram
-                </a>
-                <a href="+855713799996" class="flex items-center justify-center bg-green-500 text-white py-3 rounded-xl font-bold text-sm shadow-md">
-                   ហៅទូរស័ព្ទផ្ទាល់
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-20 flex items-end">
-        <div class="bg-white w-full rounded-t-3xl p-6 space-y-4 animate-bounce-short">
-            <div class="flex justify-between items-center">
-                <h2 id="modalTitle" class="text-xl font-bold">បំពេញព័ត៌មានកុម្ម៉ង់</h2>
-                <button onclick="closeOrder()" class="text-gray-400 text-2xl">&times;</button>
-            </div>
-            <p id="modalPrice" class="text-blue-600 font-bold"></p>
-            
-            <input type="text" id="customerName" placeholder="ឈ្មោះអតិថិជន" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <input type="tel" id="customerPhone" placeholder="លេខទូរស័ព្ទ" class="w-full border border-gray-200 p-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <textarea id="customerAddress" placeholder="អាសយដ្ឋានដឹកជញ្ជូន" class="w-full border border-gray-200 p-3 rounded-xl h-24 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-            
-            <button onclick="submitOrder()" class="w-full bg-black text-white py-4 rounded-xl font-bold shadow-lg">បញ្ជាក់ការកុម្ម៉ង់</button>
-        </div>
-    </div>
-
-    <script>
-        let tg = window.Telegram.WebApp;
-        tg.expand(@mian_009);
-
-        let currentProduct = "";
-
-        function openOrder(name, price) {
-            currentProduct = name;
-            document.getElementById('modalTitle').innerText = name;
-            document.getElementById('modalPrice').innerText = "តម្លៃ៖ " + price;
-            document.getElementById('orderModal').classList.remove('hidden');
-        }
-
-        function closeOrder() {
-            document.getElementById('orderModal').classList.add('hidden');
-        }
-
-        function submitOrder() {
-            const name = document.getElementById('customerName').value;
-            const phone = document.getElementById('customerPhone').value;
-            const address = document.getElementById('customerAddress').value;
-
-            if (name && phone && address) {
-                const orderData = `កុម្ម៉ង់ថ្មី៖\n- ទំនិញ៖ ${currentProduct}\n- ឈ្មោះ៖ ${name}\n- លេខទូរស័ព្ទ៖ ${phone}\n- អាសយដ្ឋាន៖ ${address}`;
-                tg.sendData(orderData);
-                tg.close();
-            } else {
-                alert("សូមបំពេញព័ត៌មានឱ្យគ្រប់គ្រាន់!");
-            }
-        }
-    </script>
-</body>
-</html>
+# ==================== 网页保活服务器（适配 Render） ====================
 
 
+class SimpleHandler(BaseHTTPRequestHandler):
+
+  def do_GET(self):
+    self.send_response(200)
+    self.end_headers()
+    self.wfile.write(b"Bot is running successfully!")
+
+  def log_message(self, format, *args):
+    return
+
+
+def run_server():
+  port = int(os.environ.get("PORT", 10000))
+  server = HTTPServer(("0.0.0.0", port), SimpleHandler)
+  print(f"🌐 保活网页服务器已在端口 {port} 启动...")
+  server.serve_forever()
+
+
+# ==================== 机器人核心逻辑 ====================
+
+ssl._create_default_https_context = ssl._create_unverified_context
+
+TELEGRAM_BOT_TOKEN = "8849226904:AAG9bXib2O-HSuKmSpf-fu3KuleAMyAEILc"
+URL = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}"
+
+
+def get_tron_account_info(address):
+  try:
+    url = f"https://apilist.tronscanapi.com/api/account?address={address}"
+    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+    with urllib.request.urlopen(req, timeout=10) as response:
+      data = json.loads(response.read().decode())
+
+    if "address" not in data:
+      return None
+
+    trx_balance = int(data.get("balance", 0)) / 1_000_000
+
+    usdt_balance = 0.0
+    for token in data.get("trc20token_balances", []):
+      if (
+          token.get("tokenAbbr") == "USDT"
+          or token.get("contract_address")
+          == "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"
+      ):
+        try:
+          usdt_balance = int(token.get("balance", 0)) / (
+              10 ** int(token.get("tokenDecimal", 6))
+          )
+        except (ValueError, TypeError):
+          usdt_balance = 0.0
+        break
+
+    # ✨ 核心改动 1：将获取记录条数从 3 提升到 6
+    tx_url = f"https://apilist.tronscanapi.com/api/token_trc20/transfers?limit=6&start=0&sort=-timestamp&relatedAddress={address}"
+    tx_req = urllib.request.Request(tx_url, headers={"User-Agent": "Mozilla/5.0"})
+
+    transfers = []
+    try:
+      with urllib.request.urlopen(tx_req, timeout=10) as tx_response:
+        tx_data = json.loads(tx_response.read().decode())
+        transfers = tx_data.get("token_transfers", [])
+    except Exception as e:
+      print(f"获取 TRC20 交易记录出错: {e}")
+
+    return {
+        "address": address,
+        "trx": trx_balance,
+        "usdt": usdt_balance,
+        "transfers": transfers,
+    }
+  except Exception as e:
+    print(f"Tronscan API 出错: {e}")
+    return None
+
+
+def send_message_with_keyboard(chat_id, text, reply_markup=None):
+  payload = {
+      "chat_id": chat_id,
+      "text": text,
+      "parse_mode": "Markdown",
+      "disable_web_page_preview": True,
+  }
+  if reply_markup:
+    payload["reply_markup"] = reply_markup
+
+  data = json.dumps(payload).encode("utf-8")
+  req = urllib.request.Request(
+      f"{URL}/sendMessage",
+      data=data,
+      headers={"Content-Type": "application/json"},
+  )
+  try:
+    urllib.request.urlopen(req, timeout=10)
+  except Exception as e:
+    print(f"发送 Telegram 消息出错: {e}")
+
+
+def main():
+  t = threading.Thread(target=run_server)
+  t.daemon = True
+  t.start()
+
+  offset = 0
+  print("🤖 机器人已成功升级并进入轮询...")
+
+  while True:
+    try:
+      req = urllib.request.Request(f"{URL}/getUpdates?offset={offset}&timeout=30")
+      with urllib.request.urlopen(req, timeout=35) as response:
+        result = json.loads(response.read().decode())
+
+      for update in result.get("result", []):
+        offset = update["update_id"] + 1
+        if "message" in update and "text" in update["message"]:
+          chat_id = update["message"]["chat"]["id"]
+          text = update["message"]["text"].strip()
+
+          reply_markup = None
+
+          if text.startswith("T") and len(text) == 34:
+            send_message_with_keyboard(
+                chat_id, f"🔍 正在查询地址及转账记录：\n`{text}`\n请稍候..."
+            )
+            info = get_tron_account_info(text)
+
+            if info:
+              tx_text = ""
+              if info["transfers"]:
+                # ✨ 核心改动 2：文案更新为前6笔，并且循环切片改为 [:6]
+                tx_text = "\n\n📌 **最近 USDT 交易记录（前6笔）：**"
+                for i, tx in enumerate(info["transfers"][:6], 1):
+                  tx_hash = tx.get("transaction_id", "")
+                  short_hash = (
+                      tx_hash[:6] + "..." + tx_hash[-4:]
+                      if len(tx_hash) > 10
+                      else "Unknown"
+                  )
+
+                  decimals = int(tx.get("tokenInfo", {}).get("decimal", 6))
+                  raw_amount = float(tx.get("quant", tx.get("amount", 0)))
+                  amount = raw_amount / (10**decimals)
+
+                  if amount >= 1:
+                    amount_str = f"{amount:,.2f}"
+                  elif amount > 0:
+                    amount_str = f"{amount:.6f}".rstrip("0").rstrip(".")
+                  else:
+                    amount_str = "0"
+
+                  from_addr = tx.get("from_address", "")
+                  token_symbol = (
+                      tx.get("tokenInfo", {}).get("symbol", "USDT").upper()
+                  )
+
+                  direction = "➡️ 转出" if from_addr == text else "⬅️ 入账"
+                  tx_text += (
+                      f"\n{i}. `{short_hash}` | {direction} `{amount_str}`"
+                      f" {token_symbol}"
+                  )
+              else:
+                tx_text = "\n\n📌 **最近 USDT 交易记录：** 暂无记录"
+
+              msg = (
+                  f"✅ **链上地址查询成功**\n\n"
+                  f"📬 **地址：** `{info['address']}`\n"
+                  f"💎 **TRX 余额：** `{info['trx']:.4f}` TRX\n"
+                  f"💵 **USDT 余额：** `{info['usdt']:.2f}` USDT"
+                  f"{tx_text}"
+              )
+
+              # ✨ 核心改动 3：左右并排按钮，并且把当前查询的地址拼进网址里
+              target_url = f"https://dizhicha.com/?address={text}"
+              reply_markup = {
+                  "inline_keyboard": [[
+                      {
+                          "text": "🔍 链上查询详情",
+                          "url": target_url,
+                      },
+                      {
+                          "text": "🔍 查询转账记录",
+                          "url": target_url,
+                      },
+                  ]]
+              }
+
+            else:
+              msg = "❌ 未能获取该地址信息，可能地址无效或链上无活动记录。"
+          else:
+            msg = "⚠️ 请输入正确的 **TRC-20 (波场)** 钱包地址（以 `T` 开头，共 34 位）。"
+
+          send_message_with_keyboard(chat_id, msg, reply_markup)
+
+    except Exception as e:
+      print(f"轮询异常 (将在 5 秒后重试): {e}")
+      time.sleep(5)
+
+
+if __name__ == "__main__":
+  main()
